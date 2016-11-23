@@ -1,0 +1,32 @@
+body {
+    font-family: "Verdana", Arial, sans-serif;
+    padding: 0px;
+    border: 0px;
+    margin: 0px;
+}
+
+h1 {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+h2 {
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+.header_author {
+    color: darkblue;
+}
+
+.header_block {
+    background-color: lightgray;
+    padding: 1%;
+    border-bottom: 2px;
+    border-bottom-style: solid;
+    border-bottom-color: darkblue;
+}
+
+.body_block {
+    padding: 1%;
+}

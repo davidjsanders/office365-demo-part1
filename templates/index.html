@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h2>Connecting to Office 365 Services</h2>
+    <p>
+      Office 365 is a public Software as a Service subscription cloud offering from Microsoft. It is
+      designed to provide modern productivity, collaboration, and communication for teams big and small.
+    </p>
+    <p>Page is {{ method }} mode.</p>
+    <p>There are a number of parts to this exercise:</p>
+    <ol>
+        <li>Create a certificate and a key (<a href="{{ url_for('cert_key') }}">More info</a>)</li>
+        <li>Register the app in Azure AD</li>
+        <li>Generate the KeyCredentials section for the app manifest</li>
+        <li>Copy the KeyCredentials section into the app manifest in Azure AD</li>
+        <li>Grant permissions for the application</li>
+        <li>Run the app</li>
+    </ol>
+    <p>You can try it for yourself using this demo:
+        <a href="{{ auth_source }}">Login to Office 365 with an administrative logon</a>
+    </p>
+{% endblock %}

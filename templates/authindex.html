@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h2>Connecting to Office 365 Services</h2>
+    <div>
+        <span id="user-bar">
+            <form action="{{ url_for('authenticated') }}" method="post">
+                <label for="user_email">User Email</label>
+                <input size="75" type="text" name="user_email" id="user_email" value="{{ user_email }}"/>
+                <input type="submit" value="Set User"/>
+            </form>
+        </span>
+    </div>
+    <hr>
+    <div>
+        <span id="table-title">Messages</span>
+        <span id="user-email">(for user: {{user_email}})</span>
+    </div>
+    <table id="contacts" width="100%" border="1">
+        <tr>
+            <th>From</th>
+            <th>Subject</th>
+            <th>Received</th>
+        </tr>
+        {% for message in messages %}
+            <tr>
+                <td>{{ message.From.EmailAddress.Name }}</td>
+                <td>{{ message.Subject }}</td>
+                <td>{{ message.DateTimeReceived }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <p>
+        Nice. You successfully authenticated with Office 365 and Azure AD to give this application
+        permission to sign in and read all mail in the directory.
+    </p>
+    <p>Page is {{ method }} mode.</p>
+{% endblock %}

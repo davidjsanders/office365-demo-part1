@@ -3,6 +3,19 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# JSON
+*.json
+
+# XML
+*.xml
+
+# .idea
+.idea
+.idea/*
+.idea/*.*
+.idea/.*
+.idea/.*.*
+
 # C extensions
 *.so
 
