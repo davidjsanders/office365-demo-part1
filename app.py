@@ -6,20 +6,26 @@ from helper.configuration import Configuration
 from datetime import datetime
 
 
+# Configure logging to a basic level. We will allow logging to be configured
+# later if there is a setting in the config file.
 logging.basicConfig(level=logging.DEBUG)
+
+# Create the Flask app
 app = Flask(__name__)
 app.config.from_object(__name__)
 
+# Load the configuration file from a file specified in an environment variable
+# called config
 configuration = Configuration()
 try:
     configuration.configure_from_file(os.environ['config'])
     logging.debug('Configuration loaded.')
 
-    required_items_list = ['client_id', 'cert_path', 'cert_thumb']
+    required_items_list = ['client_id', 'port']
     configuration.validate(required_items=required_items_list)
     logging.debug('Configuration validated for {0}.'.format(required_items_list))
 except KeyError as ke:
-    logging.error('The environment variable "configuration" has not been set and IS required.')
+    logging.error('The environment variable "config" has not been set and IS required.')
     exit(1)
 except FileNotFoundError as fnf:
     logging.error(
@@ -34,7 +40,7 @@ def index_html():
     auth = Authentication(redirect_uri=url_for('authenticated', _external=True))
 
     try:
-        auth.setup(**configuration.config)
+        auth.setup(configuration.config.get('client_id', None))
     except KeyError as ke:
         logging.error(
             'The key {0} is not defined as an environment variable and IS required.'.format(ke)
@@ -81,4 +87,8 @@ def cert_key():
         'cert-key.html'
     )
 
-app.run(host="127.0.0.1", port="8000")
+port = configuration.config.get('port', None)
+if port is None:
+    raise ValueError('The port is not defined in the configuration!')
+    exit(1)
+app.run(host="127.0.0.1", port=port)

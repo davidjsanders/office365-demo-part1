@@ -45,16 +45,15 @@ class Authentication(object):
 
     def setup(
             self,
-            client_id,
-            cert_path,
-            cert_thumb
+            client_id
     ):
-        logging.debug('Setup with passed parameters')
         """Pass the required variables (client_id, cert_path, and cert_thumb) to the helper
         instead of reading them from environment variables."""
+
+        logging.debug('Setup with passed parameter(s)')
         self._certificate['client_id'] = client_id
-        self._certificate['cert_path'] = cert_path
-        self._certificate['cert_thumb'] = cert_thumb
+        #self._certificate['cert_path'] = cert_path
+        #self._certificate['cert_thumb'] = cert_thumb
 
 
     @property
@@ -105,9 +104,7 @@ class Authentication(object):
 
     @property
     def signon_url(self):
-        if self._certificate['client_id'] is None \
-        or self._certificate['cert_path'] is None \
-        or self._certificate['cert_thumb'] is None:
+        if self._certificate['client_id'] is None:
             raise ValueError(
                 'The client id, certificate path, and certificate thumbprint must be set.'
             )

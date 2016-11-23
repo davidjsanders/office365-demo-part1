@@ -8,7 +8,6 @@ class Configuration(object):
 
     def __init__(self):
         logging.debug('Configuration object instantiated.')
-        pass
 
     def __str__(self):
         return '** OBFUSCATED **' if self._config is not None else 'Not Set.'
