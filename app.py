@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 # Configure logging to a basic level. We will allow logging to be configured
-# later if there is a setting in the config file.
+# later if there is a setting in the config_dict file.
 logging.basicConfig(level=logging.DEBUG)
 
 # Create the Flask app
@@ -15,15 +15,18 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 # Load the configuration file from a file specified in an environment variable
-# called config
+# called config_dict
+logging.debug('Instantiating a configuration object')
 configuration = Configuration()
 try:
-    configuration.configure_from_file(os.environ['config'])
-    logging.debug('Configuration loaded.')
+    configuration_file = os.environ['config']
 
-    required_items_list = ['client_id', 'port']
+    logging.debug('Loading configuration from the file: {0}'.format(configuration_file))
+    configuration.configure_from_file(configuration_file, append=True)
+
+    required_items_list = ['client_id']
+    logging.debug('Validating configuration contains non-empty items for: {0}'.format(required_items_list))
     configuration.validate(required_items=required_items_list)
-    logging.debug('Configuration validated for {0}.'.format(required_items_list))
 except KeyError as ke:
     logging.error('The environment variable "config" has not been set and IS required.')
     exit(1)
@@ -32,7 +35,7 @@ except FileNotFoundError as fnf:
         'The file {0} cannot be found and has been set.'.format(fnf)
     )
     exit(1)
-
+logging.debug('Configuration complete.')
 
 
 @app.route('/', methods=['GET'])
@@ -40,7 +43,7 @@ def index_html():
     auth = Authentication(redirect_uri=url_for('authenticated', _external=True))
 
     try:
-        auth.setup(configuration.config.get('client_id', None))
+        auth.setup(configuration.config_dict.get('client_id', None))
     except KeyError as ke:
         logging.error(
             'The key {0} is not defined as an environment variable and IS required.'.format(ke)
@@ -87,8 +90,7 @@ def cert_key():
         'cert-key.html'
     )
 
-port = configuration.config.get('port', None)
-if port is None:
-    raise ValueError('The port is not defined in the configuration!')
-    exit(1)
-app.run(host="127.0.0.1", port=port)
+port = configuration.config_dict.get('port', 8000)
+server = configuration.config_dict.get('server', "127.0.0.1")
+
+app.run(host=server, port=port)
