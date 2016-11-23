@@ -1,7 +1,6 @@
-import os
 import uuid
 import logging
-from urllib.parse import quote, urlencode
+from urllib.parse import urlencode
 
 
 def get_azure_signon_uri(
