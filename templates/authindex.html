@@ -1,37 +1,24 @@
 {% extends "layout.html" %}
 {% block body %}
     <h2>Connecting to Office 365 Services</h2>
-    <div>
-        <span id="user-bar">
-            <form action="{{ url_for('authenticated') }}" method="post">
-                <label for="user_email">User Email</label>
-                <input size="75" type="text" name="user_email" id="user_email" value="{{ user_email }}"/>
-                <input type="submit" value="Set User"/>
-            </form>
-        </span>
-    </div>
-    <hr>
-    <div>
-        <span id="table-title">Messages</span>
-        <span id="user-email">(for user: {{user_email}})</span>
-    </div>
-    <table id="contacts" width="100%" border="1">
+    <p>
+        Step 2. The application has now been authenticated. An access token for Office 365 now
+        has to be created from the data below.
+    </p>
+    <p>Page is {{ method }} mode.</p>
+    <table id="contacts" width="99%" border="1" style="word-wrap: break-word;">
         <tr>
-            <th>From</th>
-            <th>Subject</th>
-            <th>Received</th>
+            <th>Form Item</th>
+            <th>Value</th>
         </tr>
-        {% for message in messages %}
+        {% for key, value in form_data.items() %}
             <tr>
-                <td>{{ message.From.EmailAddress.Name }}</td>
-                <td>{{ message.Subject }}</td>
-                <td>{{ message.DateTimeReceived }}</td>
+                <td>{{ key}}</td>
+                <td>{{ value }}</td>
             </tr>
         {% endfor %}
     </table>
-    <p>
-        Nice. You successfully authenticated with Office 365 and Azure AD to give this application
-        permission to sign in and read all mail in the directory.
+    <p>Step 2. Get a token to connect to Office 365 based on the authorization:
+        <a href="{{ auth_source }}">Generate the token</a>
     </p>
-    <p>Page is {{ method }} mode.</p>
 {% endblock %}

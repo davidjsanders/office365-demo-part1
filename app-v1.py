@@ -1,14 +1,9 @@
-from flask import Flask, redirect, request, render_template, current_app, url_for
-from helper.authentication import get_azure_signon_uri
-from helper.authorization import get_access_token
-from helper.configuration import Configuration
-from datetime import datetime
 import os
 import logging
-import adal
-
-# Create an empty auth variable to hold key authn and authz information
-auth = None
+from flask import Flask, redirect, request, render_template, current_app, url_for
+from helper.authentication import get_azure_signon_uri
+from helper.configuration import Configuration
+from datetime import datetime
 
 # Configure logging to a basic level. We will allow logging to be configured
 # later if there is a setting in the config_dict file.
@@ -22,8 +17,6 @@ app.config.from_object(__name__)
 # called config_dict
 logging.debug('Instantiating a configuration object')
 configuration = Configuration()
-configuration_file = 'Not Defined'
-
 try:
     # Get the name of the configuration file from an environment variable. A
     # KeyError will be thrown if this has not been defined.
@@ -35,16 +28,7 @@ try:
 
     # Define a list of required items that must be defined and non-empty
     # in the file.
-    required_items_list = [
-        "app_id",
-        "app_resource",
-        "app_authority",
-        "app_scope",
-        "app_redirect_uri",
-        "app_response_type",
-        "app_secret",
-        "app_token"
-    ]
+    required_items_list = ['client_id', 'resource', 'authority']
 
     # Validate the configuration file against the required items list
     logging.debug('Validating configuration contains non-empty items for: {0}'.format(required_items_list))
@@ -83,9 +67,13 @@ def index_html():
 
 @app.route('/doauth', methods=['GET'])
 def doauth():
-
     return redirect(
-        get_azure_signon_uri(configuration_object=configuration)
+        get_azure_signon_uri(
+            client_id=configuration.config_dict.get('client_id'),
+            resource=configuration.config_dict.get('resource'),
+            redirect_uri=url_for('authenticated', _external=True),
+            authority=configuration.config_dict.get('authority')
+        )
     )
 
 
@@ -96,37 +84,10 @@ def authenticated():
     logging.debug('Request data: {0}'.format(request.data))
     logging.debug('Request args: {0}'.format(request.args))
     logging.debug('Request form: {0}'.format(request.form.get('id_token')))
-    logging.debug('Request form: {0}'.format(request.form.get('access_token')))
-
-    auth = {
-        "session_state": request.form.get('session_state'),
-        'code': request.form.get('code'),
-        'id-token': request.form.get('id_token'),
-        'client-id': configuration.config_dict.get('app_id')
-    }
-
-    if auth['code'] is None:
-        return redirect('/')
-
-    try:
-        authz_url = get_access_token(
-            configuration_object=configuration,
-            auth_object=auth
-        )
-        logging.debug('Authorization URL is {0}'.format(authz_url.text))
-    except PermissionError as pe:
-        auth = {}
-        return render_template(
-            'authindex.html',
-            publication_date='{0}'.format(datetime.now().strftime('%A %d %b %Y')),
-            form_data={"Unauthorized": str(pe)},
-            method=request.method
-        )
 
     return render_template(
         'authindex.html',
         publication_date='{0}'.format(datetime.now().strftime('%A %d %b %Y')),
-        form_data=auth,
         method=request.method
     )
 
