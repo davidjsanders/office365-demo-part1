@@ -1,5 +1,5 @@
 {
-  "client_id": "Your Application ID (see docs) replaces this text",
+  "client_id": "Your Application ID (see docs) replaces this text and this file is renamed config.json",
   "resource": "https://outlook.office365.com/",
   "authority": "https://login.microsoftonline.com"
 }
