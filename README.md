@@ -25,6 +25,7 @@ packages.)
  cp sample-json-file.txt ~/.mysecrets/config.json
  # edit ~/.mysecrets/config.json and make the required modifications
  export o365_demo_config="~/.mysecrets/config.json"
+ virtualenv --python=python3.5 ~/virtuals/o365_demo
  source ~/virtuals/o365_demo/bin/activate # If using venv
  python app.py
 ```
