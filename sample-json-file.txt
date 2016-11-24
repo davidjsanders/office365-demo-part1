@@ -7,7 +7,12 @@
 # configuration file, set your environment variable config to point
 # to it; for example: export config="~/.mysecrets/o365-demo.json"
 #
-# Then run the app
+# Then run the app. If running the app with Docker, then pass the
+# env variable to Docker and map the file location, e.g.:
+#
+# docker run --env config="/home/pycred/.mysecrets/o365-demo.json" \
+#   --volume /home/localuser/.mysecrets/:/home/pycred/.mysecrets \
+#   ...
 #
 # REMEMBER Remove these lines of text.
 #
