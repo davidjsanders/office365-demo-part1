@@ -20,6 +20,15 @@ run by typing: python app.py (this assumes a virtual environment as defined by
 requirements.txt has been setup or the pip installs run manually for the required
 packages.)
 
+```
+ mkdir ~/.mysecrets
+ cp sample-json-file.txt ~/.mysecrets/config.json
+ # edit ~/.mysecrets/config.json and make the required modifications
+ export o365_demo_config="~/.mysecrets/config.json"
+ source ~/virtuals/o365_demo/bin/activate # If using venv
+ python app.py
+```
+
 If running the app with Docker (either the predefined image dsanderscan/o365-demo-pt1
 or by building your own), the env variable must be passed to Docker and the file location
 of the config file mapped, e.g.:
