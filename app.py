@@ -18,7 +18,7 @@ app.config.from_object(__name__)
 logging.debug('Instantiating a configuration object')
 configuration = Configuration()
 try:
-    configuration_file = os.environ['config']
+    configuration_file = os.environ['o365_demo_config']
 
     logging.debug('Loading configuration from the file: {0}'.format(configuration_file))
     configuration.configure_from_file(configuration_file, append=True)
