@@ -6,6 +6,10 @@ __pycache__/
 # JSON
 *.json
 
+# Certs
+*.crt
+*.key
+
 # XML
 *.xml
 

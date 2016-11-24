@@ -6,6 +6,7 @@ from datetime import datetime
 import os
 import logging
 import adal
+import ssl
 
 # Create an empty auth variable to hold key authn and authz information
 auth = None
@@ -38,12 +39,11 @@ try:
     required_items_list = [
         "app_id",
         "app_resource",
-        "app_authority",
+        "app_root",
         "app_scope",
         "app_redirect_uri",
         "app_response_type",
-        "app_secret",
-        "app_token"
+        "app_secret"
     ]
 
     # Validate the configuration file against the required items list
@@ -123,6 +123,7 @@ def authenticated():
             method=request.method
         )
 
+
     return render_template(
         'authindex.html',
         publication_date='{0}'.format(datetime.now().strftime('%A %d %b %Y')),
@@ -142,4 +143,6 @@ port = configuration.config_dict.get('port', 8000)
 server = configuration.config_dict.get('server', "127.0.0.1")
 
 logging.debug('Starting application on {0}:{1}'.format(server, port))
-app.run(host=server, port=port)
+context = ssl.SSLContext(protocol=ssl.PROTOCOL_TLSv1)
+context.load_cert_chain('o365.crt', 'o365.key')
+app.run(host=server, port=port, ssl_context=context)

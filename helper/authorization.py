@@ -37,7 +37,7 @@ def get_access_token(
     logging.debug('Params: {0}'.format(request_body))
 
     r = requests.post(
-        url=configuration_object.config_dict.get('app_token'),
+        url="{0}token?".format(configuration_object.config_dict.get('app_root')),
         data=request_body
     )
     if r.status_code != 200:

@@ -40,7 +40,7 @@ def get_azure_signon_uri(
     #
     # The url is taken from the configuration object.
     #
-    authorize_url = '{0}?'.format(configuration_object.config_dict.get('app_authority'))+"{0}"
+    authorize_url = '{0}authorize?'.format(configuration_object.config_dict.get('app_root'))+"{0}"
 
     # Build the parameters that will be used to populate the authorize_url with
     # the correct information
