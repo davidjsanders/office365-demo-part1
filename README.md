@@ -1,8 +1,12 @@
 # office365-demo-part1
 Accessing Office 365 from Python and Flask - Part 1
 ## An important note ##
-This file should NEVER be in a code repository. It contains your
-application's unique identified (a 4 word uuid). Place this file
+The configuration file (config.json or o365-demo.json) should
+NEVER be in a code repository. It contains your
+application's unique identifier (a 4 word uuid) which is a
+valuable secret.
+
+Place this file
 somewhere safe (e.g. ~/.mysecrets/o365-demo.json) and change the
 rights (e.g. chmod 0600 ~/.mysecrets/o365-demo.json). To use the
 configuration file, set your environment variable config to point
