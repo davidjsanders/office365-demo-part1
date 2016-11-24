@@ -1,5 +1,18 @@
+# REMOVE EVERY LINE STARTING WITH POUND (#)
+#
+# This file should NEVER be in a code repository. It contains your
+# application's unique identified (a 4 word uuid). Place this file
+# somewhere safe (e.g. ~/.mysecrets/o365-demo.json) and change the
+# rights (e.g. chmod 0600 ~/.mysecrets/o365-demo.json). To use the
+# configuration file, set your environment variable config to point
+# to it; for example: export config="~/.mysecrets/o365-demo.json"
+#
+# Then run the app
+#
+# REMEMBER Remove these lines of text.
+#
 {
-  "client_id": "Your Application ID (see docs) replaces this text and this file is renamed config.json",
+  "client_id": "Your Application ID (see docs) replaces this text",
   "resource": "https://outlook.office365.com/",
   "authority": "https://login.microsoftonline.com"
 }
