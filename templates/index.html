@@ -6,14 +6,21 @@
       designed to provide modern productivity, collaboration, and communication for teams big and small.
     </p>
     <p>Page is {{ method }} mode.</p>
-    <p>There are a number of parts to this exercise:</p>
+    <p>
+        There are a number of parts to this exercise and you do need to make sure these are
+        performed before clicking on the link to "Login...". There's guidance for each step (and
+        references and source links, where appropriate) for each topic.
+    </p>
     <ol>
-        <li>Create a certificate and a key (<a href="{{ url_for('cert_key') }}">More info</a>)</li>
+        <li>Create (or use) a demonstration or development Office 365 (O365) tenant</li>
+        <li>Access the Azure Active Directory for your O365 tenant</li>
         <li>Register the app in Azure AD</li>
-        <li>Generate the KeyCredentials section for the app manifest</li>
-        <li>Copy the KeyCredentials section into the app manifest in Azure AD</li>
+        <li>Get (and copy) the App ID into a configuration file</li>
         <li>Grant permissions for the application</li>
         <li>Run the app</li>
+        <li>Generate the KeyCredentials section for the app manifest</li>
+        <li>Copy the KeyCredentials section into the app manifest in Azure AD</li>
+        <li>Create a certificate and a key (<a href="{{ url_for('cert_key') }}">More info</a>)</li>
     </ol>
     <p>You can try it for yourself using this demo:
         <a href="{{ auth_source }}">Login to Office 365 with an administrative logon</a>

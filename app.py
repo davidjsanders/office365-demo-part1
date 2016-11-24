@@ -1,6 +1,6 @@
 import os
 import logging
-from flask import Flask, request, render_template, current_app, url_for
+from flask import Flask, redirect, request, render_template, current_app, url_for
 from helper.authentication import get_azure_signon_uri
 from helper.configuration import Configuration
 from datetime import datetime
@@ -53,16 +53,23 @@ def index_html():
     logging.debug('index_html has been loaded by a client.')
     return render_template(
         'index.html',
-        auth_source=get_azure_signon_uri(
-            client_id=configuration.config_dict.get('client_id'),
-            resource=configuration.config_dict.get('resource'),
-            redirect_uri=url_for('authenticated', _external=True),
-            authority=configuration.config_dict.get('authority')
-        ),
+        auth_source=url_for('doauth'),
         publication_date='{0}'.format(datetime.now().strftime('%A %d %b %Y')),
         method=request.method
     )
 
+
+@app.route('/doauth', methods=['GET'])
+def doauth():
+    return redirect(
+        get_azure_signon_uri(
+            client_id=configuration.config_dict.get('client_id'),
+            resource=configuration.config_dict.get('resource'),
+            redirect_uri=url_for('authenticated', _external=True),
+            authority=configuration.config_dict.get('authority')
+        )
+    )
+    pass
 
 @app.route('/authenticated', methods=['POST'])
 def authenticated():
