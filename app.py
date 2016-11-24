@@ -22,15 +22,8 @@ try:
 
     logging.debug('Loading configuration from the file: {0}'.format(configuration_file))
     configuration.configure_from_file(configuration_file, append=True)
-    configuration.configure_from_dict(
-        config_dictionary={
-            "resource": "https://outlook.office365.com/",
-            "authority": "https://login.microsoftonline.com"
-        },
-        append=True
-    )
 
-    required_items_list = ['client_id']
+    required_items_list = ['client_id', 'resource', 'authority']
     logging.debug('Validating configuration contains non-empty items for: {0}'.format(required_items_list))
     configuration.validate(required_items=required_items_list)
 except KeyError as ke:
@@ -69,7 +62,7 @@ def doauth():
             authority=configuration.config_dict.get('authority')
         )
     )
-    pass
+
 
 @app.route('/authenticated', methods=['POST'])
 def authenticated():

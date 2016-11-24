@@ -1,0 +1,5 @@
+{
+  "client_id": "Your Application ID (see docs) replaces this text",
+  "resource": "https://outlook.office365.com/",
+  "authority": "https://login.microsoftonline.com"
+}
